@@ -185,7 +185,7 @@ const App = {
 
       const initializeGsi = () => {
         if (typeof google === 'undefined' || !google.accounts || !google.accounts.id) {
-          setTimeout(initializeGsi, 250);
+          setTimeout(initializeGsi, 200);
           return;
         }
 
@@ -193,7 +193,9 @@ const App = {
           client_id: clientId,
           callback: (response) => this.handleGoogleCredentialResponse(response),
           auto_select: false,
-          cancel_on_tap_outside: true
+          cancel_on_tap_outside: true,
+          ux_mode: 'popup',
+          itp_support: true
         });
 
         this.renderGoogleButtons();
@@ -214,37 +216,35 @@ const App = {
 
     const theme = State.theme === 'light' ? 'outline' : 'filled_black';
 
-    const signinContainer = document.getElementById('g_id_signin_container');
-    if (signinContainer) {
-      signinContainer.innerHTML = '';
+    const renderBtn = (containerId) => {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = '';
       try {
-        google.accounts.id.renderButton(signinContainer, {
-          type: 'standard',
-          shape: 'pill',
-          theme: theme,
-          text: 'signin_with',
-          size: 'large',
-          logo_alignment: 'left',
-          width: 280
-        });
-      } catch (e) {}
-    }
+        const computedWidth = container.parentElement ? container.parentElement.offsetWidth : 320;
+        const buttonWidth = Math.min(360, Math.max(260, computedWidth - 16 || 320));
 
-    const signupContainer = document.getElementById('g_id_signup_container');
-    if (signupContainer) {
-      signupContainer.innerHTML = '';
-      try {
-        google.accounts.id.renderButton(signupContainer, {
+        google.accounts.id.renderButton(container, {
           type: 'standard',
-          shape: 'pill',
+          shape: 'rectangular',
           theme: theme,
-          text: 'signup_with',
+          text: 'continue_with',
           size: 'large',
           logo_alignment: 'left',
-          width: 280
+          width: buttonWidth
         });
-      } catch (e) {}
-    }
+      } catch (e) {
+        console.warn('Google button rendering notice:', e);
+      }
+    };
+
+    // Render immediately and after DOM repaint for active tab
+    renderBtn('g_id_signin_container');
+    renderBtn('g_id_signup_container');
+    setTimeout(() => {
+      renderBtn('g_id_signin_container');
+      renderBtn('g_id_signup_container');
+    }, 50);
   },
 
   async handleGoogleCredentialResponse(response) {

@@ -144,6 +144,7 @@ async function runGoogleAuthTests() {
     assert(apiJs.includes('/api/auth/google'), 'AuthAPI posts to /api/auth/google');
     assert(appJs.includes('initGoogleAuth'), 'App.initGoogleAuth exists');
     assert(appJs.includes('handleGoogleCredentialResponse'), 'App.handleGoogleCredentialResponse exists');
+    assert(appJs.includes("text: 'continue_with'"), "Google button configured with text: 'continue_with'");
   });
 
   console.log('\n================================================================');
