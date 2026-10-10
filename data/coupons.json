@@ -1,0 +1,51 @@
+[
+  {
+    "id": "cpn_1",
+    "code": "WEEKEND20",
+    "discountPercent": 20,
+    "maxDiscount": 8000,
+    "minAmount": 10000,
+    "description": "Get Up to 20% Off on Weekend Rentals",
+    "validUntil": "2027-12-31",
+    "usageLimit": 500,
+    "usageCount": 277,
+    "active": true,
+    "updatedAt": "2026-10-10T09:12:22.037Z"
+  },
+  {
+    "id": "cpn_2",
+    "code": "FIRST20",
+    "discountPercent": 20,
+    "maxDiscount": 6000,
+    "minAmount": 8000,
+    "description": "20% Flat Discount for First Time Users",
+    "validUntil": "2027-12-31",
+    "usageLimit": 1000,
+    "usageCount": 384,
+    "active": true
+  },
+  {
+    "id": "cpn_3",
+    "code": "DRIVE10",
+    "discountPercent": 10,
+    "maxDiscount": 3000,
+    "minAmount": 5000,
+    "description": "10% Instant Discount on Any Car",
+    "validUntil": "2027-12-31",
+    "usageLimit": 2000,
+    "usageCount": 890,
+    "active": true
+  },
+  {
+    "id": "cpn_4",
+    "code": "WEEKEND15",
+    "discountPercent": 15,
+    "maxDiscount": 4000,
+    "minAmount": 8000,
+    "description": "15% Off on Friday to Sunday Bookings",
+    "validUntil": "2027-12-31",
+    "usageLimit": 400,
+    "usageCount": 95,
+    "active": true
+  }
+]

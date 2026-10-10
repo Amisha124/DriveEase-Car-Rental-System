@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DriveEase — Premium Luxury Car Rental Platform</title>
+  <meta name="description" content="Experience the ultimate driving luxury with DriveEase. Premium car rentals with instant booking, transparent pricing, verified fleet, and 24/7 VIP concierge." />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/landing.css" />
+  <link rel="stylesheet" href="/css/browse.css" />
+  <link rel="stylesheet" href="/css/car-details.css" />
+  <link rel="stylesheet" href="/css/user-dash.css" />
+  <link rel="stylesheet" href="/css/admin-dash.css" />
+  <link rel="stylesheet" href="/css/booking.css" />
+  
+  <!-- Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Global Spotlight Search Modal (Ctrl + K) -->
+  <div id="spotlight-search-modal" class="spotlight-modal" onclick="if(event.target === this) App.closeSpotlightSearch();">
+    <div class="spotlight-card">
+      <div class="spotlight-input-wrap">
+        <span style="font-size: 1.2rem; color: var(--cyan);">🔍</span>
+        <input type="text" id="spotlight-search-input" class="spotlight-input" placeholder="Search cars, brands, bookings, pages... (ESC to close)" autocomplete="off" />
+        <span class="search-shortcut-badge">ESC</span>
+      </div>
+      <div id="spotlight-results-container" class="spotlight-results"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 1. PUBLIC WEBSITE VIEW (Home & Landing Experience) -->
+  <!-- ========================================================================= -->
+  <div id="view-public" class="app-container">
+    
+    <!-- Public Header Navigation Bar (Screenshot Style) -->
+    <header class="public-header">
+      <div class="brand-logo-wrap" onclick="window.location.hash='#home'; window.scrollTo({top:0, behavior:'smooth'});">
+        <div class="brand-logo-icon">🚗</div>
+        <div class="brand-logo-text">
+          <h2>DriveEase</h2>
+          <span>PREMIUM CAR RENTAL</span>
+        </div>
+      </div>
+
+      <nav>
+        <ul class="nav-links-list">
+          <li><a href="#home" class="nav-link active" onclick="App.navigateTo('#home')">Home</a></li>
+          <li><a href="#browse" class="nav-link" onclick="App.navigateTo('#browse')">Browse Cars</a></li>
+          <li><a href="#how-it-works" class="nav-link" onclick="App.navigateTo('#how-it-works')">How It Works</a></li>
+          <li><a href="#offers" class="nav-link" onclick="App.navigateTo('#offers')">Offers</a></li>
+          <li><a href="#reviews" class="nav-link" onclick="App.navigateTo('#reviews')">Reviews</a></li>
+          <li><a href="#faq" class="nav-link" onclick="App.navigateTo('#faq')">FAQ</a></li>
+        </ul>
+      </nav>
+
+      <div class="public-header-actions">
+        <!-- Search bar -->
+        <div class="header-search-bar" onclick="App.openSpotlightSearch()" title="Press Ctrl + K">
+          <span style="color: var(--text-muted); font-size: 0.85rem;">🔍</span>
+          <input type="text" placeholder="Search for cars, brands..." readonly />
+        </div>
+
+        <!-- Theme Toggle -->
+        <button class="btn-icon" onclick="App.toggleTheme()" title="Toggle Theme">
+          <span id="public-theme-icon">☀️</span>
+        </button>
+
+        <!-- Notification Bell -->
+        <button class="btn-icon" style="position: relative;" onclick="if(State.token && State.user){ window.location.hash='#user-notifications'; } else { App.openAuthModal('signin'); }" title="Notifications">
+          🔔
+          <span style="position: absolute; top: 4px; right: 4px; width: 8px; height: 8px; background: var(--rose); border-radius: 50%;"></span>
+        </button>
+
+        <!-- Auth CTA Button -->
+        <button id="public-nav-auth-btn" class="btn btn-primary btn-sm" onclick="App.openAuthModal('signin')">
+          Login
+        </button>
+      </div>
+    </header>
+
+    <!-- Unified Landing Page Main Container -->
+    <main id="public-home-section">
+      
+      <!-- Luxury Hero Section (Screenshot Style) -->
+      <section id="home-hero" class="hero-wrapper">
+        <div class="hero-main-layout">
+          
+          <!-- Left Column: Copy, CTAs, Value Props -->
+          <div class="hero-left-content">
+            <div class="hero-star-tag">
+              <span>★</span>
+              <span>THE FUTURE OF PREMIUM CAR RENTALS</span>
+            </div>
+
+            <h1 class="hero-headline">
+              Your Journey.<br />
+              Your Car. <span class="cyan-gradient">Your Way.</span>
+            </h1>
+
+            <p class="hero-subtext">
+              Premium cars, transparent pricing and effortless booking — for business, leisure and every special moment in between.
+            </p>
+
+            <div class="hero-btn-row">
+              <button class="btn btn-primary btn-lg" onclick="Landing.scrollToSection('featured-fleet')">
+                Explore Cars ➔
+              </button>
+              <button class="btn btn-secondary btn-lg" onclick="Landing.handleQuickBookingClick()">
+                <span>📅</span> Quick Booking
+              </button>
+            </div>
+
+            <!-- 4 Trust Badges Horizontal Row -->
+            <div class="trust-badges-row">
+              <div class="trust-badge-card">
+                <div class="trust-icon-box">🎧</div>
+                <div class="trust-text">
+                  <h4>24/7 Customer Support</h4>
+                  <p>We're here for you always</p>
+                </div>
+              </div>
+
+              <div class="trust-badge-card">
+                <div class="trust-icon-box">🛡️</div>
+                <div class="trust-text">
+                  <h4>Verified Vehicles</h4>
+                  <p>Inspected & maintained</p>
+                </div>
+              </div>
+
+              <div class="trust-badge-card">
+                <div class="trust-icon-box">🏷️</div>
+                <div class="trust-text">
+                  <h4>Transparent Pricing</h4>
+                  <p>No hidden charges</p>
+                </div>
+              </div>
+
+              <div class="trust-badge-card">
+                <div class="trust-icon-box">🔄</div>
+                <div class="trust-text">
+                  <h4>Flexible Cancellation</h4>
+                  <p>Plans that suit you</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Hero Visual Backdrop & Quote Badge -->
+          <div class="hero-right-visual">
+            <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1000&auto=format&fit=crop&q=80" alt="DriveEase Luxury Car" class="hero-car-image" />
+            
+            <div class="hero-luxury-quote-pill">
+              <p>"Premium Cars For Extraordinary Journeys"</p>
+              <span>— DriveEase</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Floating Glass Search & Booking Bar (Screenshot Style) -->
+        <div id="booking-bar-widget" class="booking-bar-container">
+          <div class="booking-bar-card">
+            <form id="hero-booking-widget-form">
+              <div class="booking-bar-grid">
+                
+                <div class="bar-input-box">
+                  <div class="bar-input-icon">📍</div>
+                  <div class="bar-input-text">
+                    <label>Pickup Location</label>
+                    <select id="widget-pickup-loc">
+                      <option selected>Select pickup location (Mumbai Airport BOM)</option>
+                      <option>Bandra Downtown, Mumbai</option>
+                      <option>Bangalore Airport (BLR)</option>
+                      <option>Indiranagar Hub, Bangalore</option>
+                      <option>Delhi Airport (DEL) T3</option>
+                      <option>Doorstep VIP Delivery</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="bar-input-box">
+                  <div class="bar-input-icon">📍</div>
+                  <div class="bar-input-text">
+                    <label>Return Location</label>
+                    <select id="widget-return-loc">
+                      <option selected>Select return location (Same as Pickup)</option>
+                      <option>Mumbai Airport (BOM)</option>
+                      <option>Bangalore Airport (BLR)</option>
+                      <option>Delhi Airport (DEL) T3</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="bar-input-box">
+                  <div class="bar-input-icon">📅</div>
+                  <div class="bar-input-text">
+                    <label>Pickup Date</label>
+                    <input type="date" id="widget-pickup-date" />
+                  </div>
+                </div>
+
+                <div class="bar-input-box">
+                  <div class="bar-input-icon">📅</div>
+                  <div class="bar-input-text">
+                    <label>Return Date</label>
+                    <input type="date" id="widget-return-date" />
+                  </div>
+                </div>
+
+                <div>
+                  <button type="submit" class="btn btn-primary" style="height: 48px; padding: 0 24px; font-size: 0.95rem; width: 100%;">
+                    <span>🔍</span> Search Available Cars ➔
+                  </button>
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- SECTION 1: Featured Fleet (Screenshot Style) -->
+      <section id="featured-fleet" class="featured-fleet-section">
+        <div class="section-head-row">
+          <div class="section-head-left">
+            <span class="tag">★ OUR PREMIUM FLEET</span>
+            <h2>Featured Fleet</h2>
+            <p>Explore our most popular and premium vehicles, perfect for every journey.</p>
+          </div>
+          
+          <div class="section-head-right">
+            <button class="btn btn-secondary btn-sm" onclick="Landing.filterFleet('All'); Landing.scrollToSection('featured-fleet');" style="border-radius: var(--radius-full); padding: 6px 16px; font-weight: 600; font-size: 0.82rem; border-color: rgba(255, 255, 255, 0.15);">
+              View All Cars ➔
+            </button>
+            <button class="carousel-nav-btn" onclick="Landing.slideFleet('prev')">‹</button>
+            <button class="carousel-nav-btn" onclick="Landing.slideFleet('next')">›</button>
+          </div>
+        </div>
+
+        <!-- Category Chips -->
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;">
+          <button class="filter-chip fleet-filter-chip active" data-category="All" onclick="Landing.filterFleet('All', this)">All</button>
+          <button class="filter-chip fleet-filter-chip" data-category="Sedan" onclick="Landing.filterFleet('Sedan', this)">Sedan</button>
+          <button class="filter-chip fleet-filter-chip" data-category="SUV" onclick="Landing.filterFleet('SUV', this)">SUV</button>
+          <button class="filter-chip fleet-filter-chip" data-category="Luxury" onclick="Landing.filterFleet('Luxury', this)">Luxury</button>
+          <button class="filter-chip fleet-filter-chip" data-category="Sports" onclick="Landing.filterFleet('Sports', this)">Sports</button>
+          <button class="filter-chip fleet-filter-chip" data-category="Electric" onclick="Landing.filterFleet('Electric', this)">Electric</button>
+        </div>
+
+        <!-- 4-Card Fleet Grid -->
+        <div id="featured-cars-grid" class="fleet-cards-grid"></div>
+      </section>
+
+      <!-- SECTION 2: Why DriveEase Section (#why-us) -->
+      <section id="why-us" class="why-driveease-section">
+        <div class="section-head-left">
+          <span class="tag">★ WHY DRIVEEASE</span>
+          <h2>More Than Just a Rental</h2>
+        </div>
+
+        <div class="why-grid">
+          <div class="why-card glass-card">
+            <div class="why-icon-bubble">🛡️</div>
+            <div class="why-content">
+              <h4>Verified Premium Fleet</h4>
+              <p>All vehicles are inspected, insured and maintained regularly.</p>
+            </div>
+          </div>
+
+          <div class="why-card glass-card">
+            <div class="why-icon-bubble">⚡</div>
+            <div class="why-content">
+              <h4>Instant Booking</h4>
+              <p>Get on the road in 60 seconds with our seamless booking process.</p>
+            </div>
+          </div>
+
+          <div class="why-card glass-card">
+            <div class="why-icon-bubble">🚘</div>
+            <div class="why-content">
+              <h4>Doorstep & Airport Delivery</h4>
+              <p>We deliver to your location, anytime, anywhere.</p>
+            </div>
+          </div>
+
+          <div class="why-card glass-card">
+            <div class="why-icon-bubble">₹</div>
+            <div class="why-content">
+              <h4>Secure & Transparent Pricing</h4>
+              <p>No hidden charges. What you see is what you pay.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: Promotions & Offers (#offers) -->
+      <section id="offers" class="offers-section">
+        <div class="promo-panoramic-card">
+          <div class="promo-left">
+            <h3>Weekend Getaways, Made Extraordinary.</h3>
+            <p>
+              Flat <strong style="color: #fbbf24;">20% Off</strong> on Premium SUVs | Use Code: <strong style="color: #38bdf8; font-family: monospace;">WEEKEND20</strong>
+            </p>
+            <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <div class="promo-code-btn" onclick="navigator.clipboard.writeText('WEEKEND20'); showToast('Code Copied', 'WEEKEND20 copied to clipboard!', 'success');">
+                <span>Copy Code: WEEKEND20</span>
+                <span>📋</span>
+              </div>
+              <button class="btn btn-primary" onclick="Landing.filterFleet('SUV'); Landing.scrollToSection('featured-fleet');">
+                Explore Premium Collection ➔
+              </button>
+            </div>
+          </div>
+
+          <div class="promo-right-badges">
+            <div>👑 Luxury SUVs</div>
+            <div>🌄 Perfect for Getaways</div>
+            <div>⏰ Limited Time Offer</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: How It Works (#how-it-works) -->
+      <section id="how-it-works" class="how-it-works-section">
+        <div class="section-head-left">
+          <span class="tag">★ HOW IT WORKS</span>
+          <h2>Get On The Road In 3 Simple Steps</h2>
+        </div>
+
+        <div class="steps-timeline-row">
+          <div class="timeline-step-card glass-card">
+            <div class="timeline-icon-box">🔍</div>
+            <div>
+              <div style="font-size: 0.72rem; color: var(--cyan); font-weight: 800; text-transform: uppercase;">01 STEP</div>
+              <h3 style="font-size: 1.1rem; font-weight: 800; margin: 2px 0 4px;">Search</h3>
+              <p style="font-size: 0.82rem; color: var(--text-secondary);">Choose your location, dates and find the perfect car.</p>
+            </div>
+          </div>
+
+          <div class="timeline-arrow">➔</div>
+
+          <div class="timeline-step-card glass-card">
+            <div class="timeline-icon-box">📅</div>
+            <div>
+              <div style="font-size: 0.72rem; color: var(--cyan); font-weight: 800; text-transform: uppercase;">02 STEP</div>
+              <h3 style="font-size: 1.1rem; font-weight: 800; margin: 2px 0 4px;">Book</h3>
+              <p style="font-size: 0.82rem; color: var(--text-secondary);">Confirm your car and complete a quick, secure booking.</p>
+            </div>
+          </div>
+
+          <div class="timeline-arrow">➔</div>
+
+          <div class="timeline-step-card glass-card">
+            <div class="timeline-icon-box">🚗</div>
+            <div>
+              <div style="font-size: 0.72rem; color: var(--cyan); font-weight: 800; text-transform: uppercase;">03 STEP</div>
+              <h3 style="font-size: 1.1rem; font-weight: 800; margin: 2px 0 4px;">Drive</h3>
+              <p style="font-size: 0.82rem; color: var(--text-secondary);">Pick up your car or get it delivered and enjoy your journey.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 5: Customer Reviews (#reviews) -->
+      <section id="reviews" class="reviews-section">
+        <div class="section-head-row">
+          <div class="section-head-left">
+            <span class="tag">★ CUSTOMER REVIEWS</span>
+            <h2>What Our Customers Say</h2>
+          </div>
+          <div class="section-head-right">
+            <button class="carousel-nav-btn" onclick="Landing.slideFleet('prev')">‹</button>
+            <button class="carousel-nav-btn" onclick="Landing.slideFleet('next')">›</button>
+          </div>
+        </div>
+
+        <div id="testimonials-container" class="reviews-carousel-row"></div>
+      </section>
+
+      <!-- SECTION 6: FAQ Section (#faq) -->
+      <section id="faq" class="section-container" style="background: var(--bg-secondary); border-top: 1px solid var(--border-color);">
+        <div class="section-header-center">
+          <span class="section-tag">FREQUENTLY ASKED QUESTIONS</span>
+          <h2 class="section-title">Got Questions? We Have Answers</h2>
+          <p class="section-desc">Everything you need to know about our luxury rental fleet and booking policies.</p>
+        </div>
+
+        <div id="faq-container" class="faq-list"></div>
+      </section>
+
+      <!-- Pre-Footer CTA Banner (Screenshot Style) -->
+      <div class="pre-footer-cta-card">
+        <div>
+          <h2>Ready for your next drive?</h2>
+          <p>Explore our premium fleet and create unforgettable journeys.</p>
+        </div>
+        <button class="btn btn-primary btn-lg" onclick="Landing.scrollToSection('featured-fleet')">
+          Explore Fleet ➔
+        </button>
+      </div>
+
+      <!-- Footer -->
+      <footer class="public-footer">
+        <div class="footer-bottom-row">
+          <div class="footer-brand-left" onclick="window.location.hash='#home'; window.scrollTo({top:0, behavior:'smooth'});">
+            <div class="brand-logo-icon" style="width: 28px; height: 28px; font-size: 0.9rem;">🚗</div>
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary);">DriveEase</h3>
+          </div>
+
+          <ul class="footer-center-links">
+            <li><a href="#home" onclick="Landing.scrollToSection('home-hero')">Home</a></li>
+            <li><a href="#browse" onclick="Landing.scrollToSection('featured-fleet')">Browse Cars</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('About DriveEase', 'India\'s premier luxury rental platform with verified luxury fleet.', 'info')">About Us</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('Contact Support', '24/7 VIP Concierge Helpline: +91 98765 43210', 'info')">Contact</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('Privacy Policy', 'Zero-data sharing & end-to-end encrypted transactions.', 'info')">Privacy Policy</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('Terms & Conditions', 'Transparent pricing with zero hidden charges & free cancellation.', 'info')">Terms & Conditions</a></li>
+            <li><a href="#faq" onclick="Landing.scrollToSection('faq')">FAQ</a></li>
+          </ul>
+
+          <div class="footer-right-socials">
+            <a href="javascript:void(0)" class="social-icon-btn" title="Facebook">📘</a>
+            <a href="javascript:void(0)" class="social-icon-btn" title="Instagram">📸</a>
+            <a href="javascript:void(0)" class="social-icon-btn" title="YouTube">▶️</a>
+            <a href="javascript:void(0)" class="social-icon-btn" title="LinkedIn">💼</a>
+            <a href="javascript:void(0)" class="social-icon-btn" title="X / Twitter">✖️</a>
+            <button class="back-to-top-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Back to Top">↑</button>
+          </div>
+        </div>
+      </footer>
+
+    </main>
+
+    <!-- ========================================================================= -->
+    <!-- 1B. DEDICATED BROWSE FLEET / CARS PAGE (Step 2 Premium Browse Cars) -->
+    <!-- ========================================================================= -->
+    <main id="public-browse-section" style="display: none;">
+      
+      <!-- Page Header & Breadcrumb Trail -->
+      <section class="browse-page-header">
+        <div class="breadcrumb-trail">
+          <a href="#home" onclick="App.navigateTo('#home')">Home</a>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-current">Browse Cars</span>
+        </div>
+        <h1 class="browse-headline">Browse Our Premium Fleet</h1>
+        <p class="browse-subtext">
+          Choose from our collection of premium vehicles for business, leisure and unforgettable journeys.
+        </p>
+      </section>
+
+      <!-- Top Availability Search Panel -->
+      <section class="browse-search-bar-wrap">
+        <div class="hero-search-box glass-panel">
+          <form id="browse-top-search-form" onsubmit="Browse.handleTopSearchSubmit(event)" style="display: contents;">
+            <div class="search-field-item">
+              <span class="field-icon">📍</span>
+              <div class="field-input-group">
+                <label for="browse-pickup-loc">PICKUP LOCATION</label>
+                <select id="browse-pickup-loc" class="field-select">
+                  <option value="Mumbai Airport (BOM)" selected>Mumbai Airport (BOM)</option>
+                  <option value="Mumbai Downtown Hub">Mumbai Downtown Hub</option>
+                  <option value="Delhi NCR Terminal 3">Delhi NCR Terminal 3</option>
+                  <option value="Bangalore Tech Corridor">Bangalore Tech Corridor</option>
+                  <option value="Goa Airport (GOI)">Goa Airport (GOI)</option>
+                  <option value="Pune City Center">Pune City Center</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="search-field-item">
+              <span class="field-icon">🔄</span>
+              <div class="field-input-group">
+                <label for="browse-return-loc">RETURN LOCATION</label>
+                <select id="browse-return-loc" class="field-select">
+                  <option value="Same as Pickup" selected>Same as Pickup</option>
+                  <option value="Mumbai Airport (BOM)">Mumbai Airport (BOM)</option>
+                  <option value="Mumbai Downtown Hub">Mumbai Downtown Hub</option>
+                  <option value="Delhi NCR Terminal 3">Delhi NCR Terminal 3</option>
+                  <option value="Bangalore Tech Corridor">Bangalore Tech Corridor</option>
+                  <option value="Goa Airport (GOI)">Goa Airport (GOI)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="search-field-item">
+              <span class="field-icon">📅</span>
+              <div class="field-input-group">
+                <label for="browse-pickup-date">PICKUP DATE</label>
+                <input type="date" id="browse-pickup-date" class="field-input" />
+              </div>
+            </div>
+
+            <div class="search-field-item">
+              <span class="field-icon">🏁</span>
+              <div class="field-input-group">
+                <label for="browse-return-date">RETURN DATE</label>
+                <input type="date" id="browse-return-date" class="field-input" />
+              </div>
+            </div>
+
+            <button type="submit" class="btn-search-cta" id="browse-search-cta-btn">
+              <span>Search Available Cars</span>
+              <span>➔</span>
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Main Layout: Desktop Sidebar + Catalog -->
+      <div class="browse-layout-container">
+        
+        <!-- Desktop Sticky Filter Sidebar -->
+        <aside class="browse-sidebar glass-card" id="browse-desktop-sidebar">
+          
+          <div class="filter-sidebar-head">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1rem; color: var(--cyan);">⚡</span>
+              <h3>Filter Fleet</h3>
+            </div>
+            <button class="btn-text-sm" onclick="Browse.resetFilters()">Clear Filters</button>
+          </div>
+
+          <!-- Keyword Search -->
+          <div class="filter-group">
+            <span class="filter-label">Search by Model / Brand</span>
+            <div class="input-with-icon">
+              <span>🔍</span>
+              <input type="text" id="browse-filter-search" placeholder="e.g. BMW, Audi, G63..." oninput="Browse.handleSearchInput(this.value)" />
+            </div>
+          </div>
+
+          <!-- Car Type Filter -->
+          <div class="filter-group">
+            <span class="filter-label">Car Type</span>
+            <div class="filter-chips-grid" id="browse-type-chips">
+              <button type="button" class="filter-chip active" data-type="All" onclick="Browse.setTypeFilter('All', this)">All</button>
+              <button type="button" class="filter-chip" data-type="Sedan" onclick="Browse.setTypeFilter('Sedan', this)">Sedan</button>
+              <button type="button" class="filter-chip" data-type="SUV" onclick="Browse.setTypeFilter('SUV', this)">SUV</button>
+              <button type="button" class="filter-chip" data-type="Luxury" onclick="Browse.setTypeFilter('Luxury', this)">Luxury</button>
+              <button type="button" class="filter-chip" data-type="Sports" onclick="Browse.setTypeFilter('Sports', this)">Sports</button>
+              <button type="button" class="filter-chip" data-type="Electric" onclick="Browse.setTypeFilter('Electric', this)">Electric</button>
+            </div>
+          </div>
+
+          <!-- Price Range Slider -->
+          <div class="filter-group">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="filter-label">Price Range</span>
+              <span id="browse-price-display" style="font-size: 0.82rem; font-weight: 800; color: var(--cyan);">Up to ₹40,000 / day</span>
+            </div>
+            <input type="range" id="browse-price-slider" class="price-slider" min="2000" max="40000" step="500" value="40000" oninput="Browse.handlePriceSlider(this.value)" />
+            <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--text-muted);">
+              <span>₹2,000/d</span>
+              <span>₹40,000/d</span>
+            </div>
+          </div>
+
+          <!-- Brand Filter -->
+          <div class="filter-group">
+            <span class="filter-label">Automotive Brand</span>
+            <div class="brand-checkboxes-list" id="browse-brand-checkboxes">
+              <label class="checkbox-row">
+                <input type="checkbox" value="BMW" onchange="Browse.setBrandFilter('BMW', this)" />
+                <span>BMW</span>
+              </label>
+              <label class="checkbox-row">
+                <input type="checkbox" value="Mercedes-Benz" onchange="Browse.setBrandFilter('Mercedes-Benz', this)" />
+                <span>Mercedes-Benz</span>
+              </label>
+              <label class="checkbox-row">
+                <input type="checkbox" value="Audi" onchange="Browse.setBrandFilter('Audi', this)" />
+                <span>Audi</span>
+              </label>
+              <label class="checkbox-row">
+                <input type="checkbox" value="Porsche" onchange="Browse.setBrandFilter('Porsche', this)" />
+                <span>Porsche</span>
+              </label>
+              <label class="checkbox-row">
+                <input type="checkbox" value="Range Rover" onchange="Browse.setBrandFilter('Range Rover', this)" />
+                <span>Range Rover</span>
+              </label>
+              <label class="checkbox-row">
+                <input type="checkbox" value="Toyota" onchange="Browse.setBrandFilter('Toyota', this)" />
+                <span>Toyota</span>
+              </label>
+              <label class="checkbox-row">
+                <input type="checkbox" value="Tesla" onchange="Browse.setBrandFilter('Tesla', this)" />
+                <span>Tesla</span>
+              </label>
+              <label class="checkbox-row">
+                <input type="checkbox" value="Jaguar" onchange="Browse.setBrandFilter('Jaguar', this)" />
+                <span>Jaguar</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Seats Filter -->
+          <div class="filter-group">
+            <span class="filter-label">Seating Capacity</span>
+            <div class="filter-chips-grid" id="browse-seat-chips">
+              <button type="button" class="filter-chip active" data-seats="All" onclick="Browse.setSeatFilter('All', this)">All</button>
+              <button type="button" class="filter-chip" data-seats="2" onclick="Browse.setSeatFilter('2', this)">2 Seats</button>
+              <button type="button" class="filter-chip" data-seats="4" onclick="Browse.setSeatFilter('4', this)">4 Seats</button>
+              <button type="button" class="filter-chip" data-seats="5" onclick="Browse.setSeatFilter('5', this)">5 Seats</button>
+              <button type="button" class="filter-chip" data-seats="7" onclick="Browse.setSeatFilter('7', this)">7+ Seats</button>
+            </div>
+          </div>
+
+          <!-- Transmission Filter -->
+          <div class="filter-group">
+            <span class="filter-label">Transmission</span>
+            <div class="filter-chips-grid" id="browse-trans-chips">
+              <button type="button" class="filter-chip active" data-trans="All" onclick="Browse.setTransmission('All', this)">All</button>
+              <button type="button" class="filter-chip" data-trans="Automatic" onclick="Browse.setTransmission('Automatic', this)">Automatic</button>
+              <button type="button" class="filter-chip" data-trans="Manual" onclick="Browse.setTransmission('Manual', this)">Manual</button>
+            </div>
+          </div>
+
+          <!-- Fuel Filter -->
+          <div class="filter-group">
+            <span class="filter-label">Fuel Type</span>
+            <div class="filter-chips-grid" id="browse-fuel-chips">
+              <button type="button" class="filter-chip active" data-fuel="All" onclick="Browse.setFuel('All', this)">All</button>
+              <button type="button" class="filter-chip" data-fuel="Petrol" onclick="Browse.setFuel('Petrol', this)">Petrol</button>
+              <button type="button" class="filter-chip" data-fuel="Diesel" onclick="Browse.setFuel('Diesel', this)">Diesel</button>
+              <button type="button" class="filter-chip" data-fuel="Electric" onclick="Browse.setFuel('Electric', this)">Electric</button>
+              <button type="button" class="filter-chip" data-fuel="Hybrid" onclick="Browse.setFuel('Hybrid', this)">Hybrid</button>
+            </div>
+          </div>
+
+          <!-- Rating Filter -->
+          <div class="filter-group">
+            <span class="filter-label">Customer Rating</span>
+            <div class="filter-chips-grid" id="browse-rating-chips">
+              <button type="button" class="filter-chip active" data-rating="0" onclick="Browse.setMinRating(0, this)">All</button>
+              <button type="button" class="filter-chip" data-rating="4" onclick="Browse.setMinRating(4, this)">★ 4.0+</button>
+              <button type="button" class="filter-chip" data-rating="4.5" onclick="Browse.setMinRating(4.5, this)">★ 4.5+</button>
+            </div>
+          </div>
+
+          <!-- Availability Filter -->
+          <div class="filter-group">
+            <span class="filter-label">Availability Status</span>
+            <div class="filter-chips-grid" id="browse-avail-chips">
+              <button type="button" class="filter-chip active" data-avail="all" onclick="Browse.setAvailabilityOnly(false, this)">All Vehicles</button>
+              <button type="button" class="filter-chip" data-avail="available" onclick="Browse.setAvailabilityOnly(true, this)">Available Only</button>
+            </div>
+          </div>
+
+          <!-- Reset Filter Button -->
+          <button type="button" class="btn btn-secondary btn-sm" style="width: 100%; margin-top: 10px;" onclick="Browse.resetFilters()">
+            ↺ Clear All Filters
+          </button>
+        </aside>
+
+        <!-- Main Content Area: Control Bar + Vehicle Grid + Promo Banner -->
+        <section class="browse-main-content">
+          
+          <!-- Mobile Filter Trigger Bar (Visible on screens < 1100px) -->
+          <div class="browse-mobile-filter-bar">
+            <button class="btn btn-secondary btn-sm" onclick="Browse.toggleMobileFilter(true)" style="display: flex; align-items: center; gap: 8px; flex: 1; justify-content: center;">
+              <span>⚡</span>
+              <span id="browse-mobile-filter-label">Filters & Sorting</span>
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="Browse.resetFilters()" title="Reset Filters">
+              ↺ Reset
+            </button>
+          </div>
+
+          <!-- Control Bar (Counter + Sort Dropdown) -->
+          <div class="catalog-control-bar glass-card">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.1rem; color: var(--cyan);">🚘</span>
+              <span id="catalog-results-count" style="font-size: 0.92rem; font-weight: 800; color: var(--text-primary);">
+                Loading available vehicles...
+              </span>
+            </div>
+
+            <div class="catalog-sort-wrap">
+              <label for="catalog-sort-select" style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">Sort by:</label>
+              <select id="catalog-sort-select" class="form-control" style="padding: 6px 12px; font-size: 0.82rem; width: auto; border-radius: var(--radius-md);" onchange="Browse.setSort(this.value)">
+                <option value="recommended" selected>Recommended</option>
+                <option value="price_asc">Price: Low to High</option>
+                <option value="price_desc">Price: High to Low</option>
+                <option value="rating_desc">Highest Rated</option>
+                <option value="popular">Most Popular</option>
+                <option value="newest">Newest Fleet</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Vehicle Catalog Grid (4 / 3 / 2 / 1 Responsive) -->
+          <div id="catalog-cars-grid" class="catalog-grid"></div>
+
+          <!-- Promotional Area: Weekend Getaways Banner -->
+          <div class="browse-promo-strip">
+            <div class="browse-promo-left">
+              <div style="font-size: 0.75rem; color: var(--cyan); font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;">
+                ⭐ Weekend Getaways Special
+              </div>
+              <h3 style="font-size: 1.2rem; font-weight: 800; margin: 4px 0 2px; color: #ffffff;">
+                20% OFF Premium SUVs
+              </h3>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0;">
+                Use Promo Code <strong style="color: var(--amber); background: rgba(245, 158, 11, 0.15); padding: 2px 6px; border-radius: 4px;">WEEKEND20</strong> during checkout on 3+ day rentals.
+              </p>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="Browse.setTypeFilter('SUV'); showToast('Promo Applied', 'Showing all luxury SUVs with promo code WEEKEND20 ready!', 'success');" style="white-space: nowrap;">
+              Explore Offer ➔
+            </button>
+          </div>
+
+        </section>
+
+      </div>
+
+      <!-- Mobile Offcanvas Filter Drawer Modal -->
+      <div id="browse-mobile-drawer" class="mobile-filter-drawer" onclick="if(event.target === this) Browse.toggleMobileFilter(false);">
+        <div class="mobile-filter-drawer-content">
+          <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.1rem; color: var(--cyan);">⚡</span>
+              <h3 style="font-size: 1.1rem; font-weight: 800;">Filters & Sorting</h3>
+            </div>
+            <button class="modal-close-btn" onclick="Browse.toggleMobileFilter(false)">✕</button>
+          </div>
+
+          <!-- Mobile Car Type -->
+          <div class="filter-group">
+            <span class="filter-label">Car Type</span>
+            <div class="filter-chips-grid">
+              <button type="button" class="filter-chip active" onclick="Browse.setTypeFilter('All', this)">All</button>
+              <button type="button" class="filter-chip" onclick="Browse.setTypeFilter('Sedan', this)">Sedan</button>
+              <button type="button" class="filter-chip" onclick="Browse.setTypeFilter('SUV', this)">SUV</button>
+              <button type="button" class="filter-chip" onclick="Browse.setTypeFilter('Luxury', this)">Luxury</button>
+              <button type="button" class="filter-chip" onclick="Browse.setTypeFilter('Sports', this)">Sports</button>
+              <button type="button" class="filter-chip" onclick="Browse.setTypeFilter('Electric', this)">Electric</button>
+            </div>
+          </div>
+
+          <!-- Mobile Price Slider -->
+          <div class="filter-group">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="filter-label">Price Range</span>
+              <span id="browse-mobile-price-display" style="font-size: 0.82rem; font-weight: 800; color: var(--cyan);">Up to ₹40,000 / day</span>
+            </div>
+            <input type="range" class="price-slider" min="2000" max="40000" step="500" value="40000" oninput="Browse.handlePriceSlider(this.value)" />
+          </div>
+
+          <!-- Mobile Seating -->
+          <div class="filter-group">
+            <span class="filter-label">Seating Capacity</span>
+            <div class="filter-chips-grid">
+              <button type="button" class="filter-chip active" onclick="Browse.setSeatFilter('All', this)">All</button>
+              <button type="button" class="filter-chip" onclick="Browse.setSeatFilter('2', this)">2</button>
+              <button type="button" class="filter-chip" onclick="Browse.setSeatFilter('4', this)">4</button>
+              <button type="button" class="filter-chip" onclick="Browse.setSeatFilter('5', this)">5</button>
+              <button type="button" class="filter-chip" onclick="Browse.setSeatFilter('7', this)">7+</button>
+            </div>
+          </div>
+
+          <!-- Mobile Transmission & Fuel -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="filter-group">
+              <span class="filter-label">Transmission</span>
+              <select class="form-control" style="font-size: 0.82rem; padding: 6px;" onchange="Browse.setTransmission(this.value)">
+                <option value="All">All Transmissions</option>
+                <option value="Automatic">Automatic</option>
+                <option value="Manual">Manual</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <span class="filter-label">Fuel</span>
+              <select class="form-control" style="font-size: 0.82rem; padding: 6px;" onchange="Browse.setFuel(this.value)">
+                <option value="All">All Fuels</option>
+                <option value="Petrol">Petrol</option>
+                <option value="Diesel">Diesel</option>
+                <option value="Electric">Electric</option>
+                <option value="Hybrid">Hybrid</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Mobile Buttons -->
+          <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <button class="btn btn-secondary" style="flex: 1;" onclick="Browse.resetFilters(); Browse.toggleMobileFilter(false);">Clear Filters</button>
+            <button class="btn btn-primary" style="flex: 1.5;" onclick="Browse.toggleMobileFilter(false)">Apply Filters ➔</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Public Browse Page Footer -->
+      <footer class="public-footer">
+        <div class="footer-bottom-row">
+          <div class="footer-brand-left" onclick="window.location.hash='#home'; window.scrollTo({top:0, behavior:'smooth'});">
+            <div class="brand-logo-icon" style="width: 28px; height: 28px; font-size: 0.9rem;">🚗</div>
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary);">DriveEase</h3>
+          </div>
+
+          <ul class="footer-center-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#browse">Browse Cars</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('About DriveEase', 'India\'s premier luxury rental platform with verified luxury fleet.', 'info')">About Us</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('Contact Support', '24/7 VIP Concierge Helpline: +91 98765 43210', 'info')">Contact</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('Privacy Policy', 'Zero-data sharing & end-to-end encrypted transactions.', 'info')">Privacy Policy</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('Terms & Conditions', 'Transparent pricing with zero hidden charges & free cancellation.', 'info')">Terms & Conditions</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+
+          <div class="footer-right-socials">
+            <a href="javascript:void(0)" class="social-icon-btn" title="Facebook">📘</a>
+            <a href="javascript:void(0)" class="social-icon-btn" title="Instagram">📸</a>
+            <a href="javascript:void(0)" class="social-icon-btn" title="YouTube">▶️</a>
+            <a href="javascript:void(0)" class="social-icon-btn" title="LinkedIn">💼</a>
+            <a href="javascript:void(0)" class="social-icon-btn" title="X / Twitter">✖️</a>
+            <button class="back-to-top-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Back to Top">↑</button>
+          </div>
+        </div>
+    </main>
+
+    <!-- ========================================================================= -->
+    <!-- 1C. DEDICATED CAR DETAILS PAGE (Step 3 Premium Car Details) -->
+    <!-- ========================================================================= -->
+    <main id="public-car-details-section" style="display: none;">
+      <!-- Populated dynamically by CarDetails.init(carId) -->
+    </main>
+
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 2. CUSTOMER / USER DASHBOARD VIEW (Screenshot 1) -->
+  <!-- ========================================================================= -->
+  <div id="view-user-dash" class="dashboard-layout" style="display: none;">
+    <aside id="user-sidebar" class="dash-sidebar"></aside>
+    <div class="dash-main">
+      <header id="user-header" class="dash-header"></header>
+      <div id="user-main-view"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 3. ADMIN DASHBOARD VIEW (Screenshot 2) -->
+  <!-- ========================================================================= -->
+  <div id="view-admin-dash" class="dashboard-layout" style="display: none;">
+    <aside id="admin-sidebar" class="dash-sidebar"></aside>
+    <div class="dash-main">
+      <header id="admin-header" class="dash-header"></header>
+      <div id="admin-main-view"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODALS & OVERLAYS -->
+  <!-- ========================================================================= -->
+
+  <!-- Auth Modal (Sign In / Sign Up) -->
+  <div id="auth-modal" class="modal-overlay" onclick="if(event.target === this) closeModal('auth-modal');">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Welcome to DriveEase</h3>
+        <button class="modal-close-btn" onclick="closeModal('auth-modal')">✕</button>
+      </div>
+      <div class="modal-body">
+        
+        <!-- Auth Tabs -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px;">
+          <button id="tab-signin-btn" class="pill-btn active" style="text-align: center; padding: 8px;" onclick="App.switchAuthTab('signin')">Sign In</button>
+          <button id="tab-signup-btn" class="pill-btn" style="text-align: center; padding: 8px;" onclick="App.switchAuthTab('signup')">Create Account</button>
+        </div>
+
+        <!-- Quick Demo Account Fill Buttons -->
+        <div style="background: rgba(37, 99, 235, 0.08); border: 1px solid rgba(37, 99, 235, 0.2); padding: 12px; border-radius: var(--radius-md); margin-bottom: 20px;">
+          <div style="font-size: 0.72rem; color: var(--cyan); font-weight: 700; margin-bottom: 8px; text-transform: uppercase;">⚡ 1-Click Quick Demo Login</div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="btn btn-secondary btn-sm" onclick="App.fillDemoAdmin()">👑 Fill Demo Admin</button>
+            <button class="btn btn-secondary btn-sm" onclick="App.fillDemoCustomer()">👤 Fill Demo Customer (John Doe)</button>
+          </div>
+        </div>
+
+        <!-- Sign In Form -->
+        <form id="signin-form-box" onsubmit="App.handleSignIn(event)">
+          <div class="form-group">
+            <label class="form-label">EMAIL ADDRESS</label>
+            <input type="email" id="auth-signin-email" class="form-control" placeholder="name@example.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">PASSWORD</label>
+            <input type="password" id="auth-signin-pass" class="form-control" placeholder="••••••••" required />
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Sign In to Account ➔</button>
+
+          <!-- Divider -->
+          <div style="display: flex; align-items: center; margin: 18px 0; gap: 12px;">
+            <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.12);"></div>
+            <span style="font-size: 0.75rem; color: var(--text-muted, #94a3b8); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">or continue with</span>
+            <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.12);"></div>
+          </div>
+
+          <!-- Google Sign In Container -->
+          <div id="g_id_signin_container" style="display: flex; justify-content: center; width: 100%; min-height: 44px;"></div>
+        </form>
+
+        <!-- Sign Up Form -->
+        <form id="signup-form-box" style="display: none;" onsubmit="App.handleSignUp(event)">
+          <div class="form-group">
+            <label class="form-label">FULL NAME</label>
+            <input type="text" id="auth-signup-name" class="form-control" placeholder="e.g. Rahul Sharma" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">EMAIL ADDRESS</label>
+            <input type="email" id="auth-signup-email" class="form-control" placeholder="name@example.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">PHONE NUMBER</label>
+            <input type="tel" id="auth-signup-phone" class="form-control" placeholder="+91 98765 43210" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">ACCOUNT TYPE</label>
+            <select id="auth-signup-role" class="form-control">
+              <option value="CUSTOMER" selected>Customer / Traveler</option>
+              <option value="ADMIN">Fleet Administrator (Demo)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">PASSWORD (MIN 6 CHARACTERS)</label>
+            <input type="password" id="auth-signup-pass" class="form-control" placeholder="••••••••" minlength="6" required />
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Create Account ➔</button>
+
+          <!-- Divider -->
+          <div style="display: flex; align-items: center; margin: 18px 0; gap: 12px;">
+            <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.12);"></div>
+            <span style="font-size: 0.75rem; color: var(--text-muted, #94a3b8); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">or continue with</span>
+            <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.12);"></div>
+          </div>
+
+          <!-- Google Sign Up Container -->
+          <div id="g_id_signup_container" style="display: flex; justify-content: center; width: 100%; min-height: 44px;"></div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Car Details Modal -->
+  <div id="car-details-modal" class="modal-overlay" onclick="if(event.target === this) closeModal('car-details-modal');">
+    <div class="modal-box modal-xl">
+      <div class="modal-header">
+        <h3 class="modal-title">Vehicle Specifications & Pricing</h3>
+        <button class="modal-close-btn" onclick="closeModal('car-details-modal')">✕</button>
+      </div>
+      <div id="car-details-modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Multi-Step Booking Wizard Modal -->
+  <div id="booking-wizard-modal" class="modal-overlay" onclick="if(event.target === this) closeModal('booking-wizard-modal');">
+    <div class="modal-box modal-xl" style="padding: 0;">
+      <div class="modal-header" style="padding: 18px 28px;">
+        <h3 class="modal-title">Reserve Your Vehicle</h3>
+        <button class="modal-close-btn" onclick="closeModal('booking-wizard-modal')">✕</button>
+      </div>
+      <div id="booking-wizard-content"></div>
+    </div>
+  </div>
+
+  <!-- Confirmation Celebration Modal -->
+  <div id="confirmation-modal" class="modal-overlay" onclick="if(event.target === this) closeModal('confirmation-modal');">
+    <div class="modal-box">
+      <div id="confirmation-modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Printable Tax Invoice Receipt Modal -->
+  <div id="receipt-modal" class="modal-overlay" onclick="if(event.target === this) closeModal('receipt-modal');">
+    <div class="modal-box modal-lg">
+      <div id="receipt-modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Vehicle Comparison Modal -->
+  <div id="compare-modal" class="modal-overlay" onclick="if(event.target === this) closeModal('compare-modal');">
+    <div class="modal-box modal-xl">
+      <div class="modal-header">
+        <h3 class="modal-title">Side-by-Side Vehicle Comparison</h3>
+        <button class="modal-close-btn" onclick="closeModal('compare-modal')">✕</button>
+      </div>
+      <div id="compare-modal-content" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Floating Compare Tray -->
+  <div id="compare-tray" class="compare-tray">
+    <div style="font-weight: 700; font-size: 0.88rem;">⚖ Compare:</div>
+    <div id="compare-chips-wrap" class="compare-car-chips"></div>
+    <button class="btn btn-primary btn-sm" onclick="Landing.openCompareModal()">Compare Now ➔</button>
+    <button class="btn btn-icon btn-sm" onclick="State.compareList = []; localStorage.removeItem('driveease_compare'); Landing.renderCompareTray();" title="Clear">✕</button>
+  </div>
+
+  <!-- Admin Add/Edit Car Modal -->
+  <div id="admin-car-modal" class="modal-overlay" onclick="if(event.target === this) closeModal('admin-car-modal');">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <h3 class="modal-title">Fleet Vehicle Editor</h3>
+        <button class="modal-close-btn" onclick="closeModal('admin-car-modal')">✕</button>
+      </div>
+      <div id="admin-car-modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Admin Generic Modal (Expenses / Coupons) -->
+  <div id="admin-modal-generic" class="modal-overlay" onclick="if(event.target === this) closeModal('admin-modal-generic');">
+    <div class="modal-box">
+      <div id="admin-modal-generic-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Customer Review Submit Modal -->
+  <div id="review-submit-modal" class="modal-overlay" onclick="if(event.target === this) closeModal('review-submit-modal');">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Write Customer Review</h3>
+        <button class="modal-close-btn" onclick="closeModal('review-submit-modal')">✕</button>
+      </div>
+      <div id="review-submit-modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Application Scripts -->
+  <script src="/js/api.js"></script>
+  <script src="/js/charts.js"></script>
+  <script src="/js/landing.js"></script>
+  <script src="/js/browse.js"></script>
+  <script src="/js/car-details.js"></script>
+  <script src="/js/booking.js"></script>
+  <script src="/js/user-dash.js"></script>
+  <script src="/js/admin-dash.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

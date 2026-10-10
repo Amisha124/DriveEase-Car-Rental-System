@@ -1,0 +1,38 @@
+[
+  {
+    "id": "fav_2",
+    "userId": "usr_cust_01",
+    "carId": "car_toyota_fortuner",
+    "createdAt": "2026-09-12T11:00:00.000Z"
+  },
+  {
+    "id": "fav_3",
+    "userId": "usr_cust_01",
+    "carId": "car_audi_a6",
+    "createdAt": "2026-09-15T14:00:00.000Z"
+  },
+  {
+    "id": "fav_4",
+    "userId": "usr_cust_01",
+    "carId": "car_range_rover_sport",
+    "createdAt": "2026-09-20T16:00:00.000Z"
+  },
+  {
+    "id": "id_1791559949677_inp25p",
+    "createdAt": "2026-10-09T15:32:29.677Z",
+    "userId": "id_1791559631911_ito91s",
+    "carId": "car_merc_c"
+  },
+  {
+    "id": "id_1791559953215_zfvzcs",
+    "createdAt": "2026-10-09T15:32:33.215Z",
+    "userId": "id_1791559631911_ito91s",
+    "carId": "car_tesla_model_s"
+  },
+  {
+    "id": "id_1791623536025_1huol8",
+    "createdAt": "2026-10-10T09:12:16.025Z",
+    "userId": "usr_cust_01",
+    "carId": "car_bmw_5"
+  }
+]
